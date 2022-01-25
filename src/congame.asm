@@ -83,7 +83,7 @@ LOCAL sym[2]:BYTE
 	invoke GetStdHandle,STD_OUTPUT_HANDLE
 	mov HD, rax
 	
-	invoke ReadConsoleOutputCharacterA,HD,addr sym,2,rbx,addr chrNum	
+	invoke ReadConsoleOutputCharacterA,0,addr sym,2,rbx,addr chrNum	
 	test rax, rax
 	je @Error
 	
@@ -102,7 +102,9 @@ ErrorMessage PROC uses rbx DWErrorCode:DWORD,lpszFunction:PTR BYTE
 LOCAL lpMsgBuf:LPVOID
 LOCAL lpDisplayBuf:LPVOID
 LOCAL dwerror:DWORD
-        sub rsp, 28h
+        sub rsp, 30h
+        mov DWErrorCode, ecx
+        mov lpszFunction, rdx
 
 	call GetLastError
 	mov dwerror, eax
@@ -122,7 +124,7 @@ LOCAL dwerror:DWORD
 	invoke LocalAlloc,LMEM_ZEROINIT,rbx
 	mov lpDisplayBuf, rax
 	
-	invoke vc__mbstrlen,lpszFunction,lpDisplayBuf,rv(vc__mbstrlen,lpszFunction)
+	invoke vc_strcpy,lpDisplayBuf,lpszFunction
 	
 	invoke vc_strcat,lpDisplayBuf," failed with error "
 	
@@ -138,7 +140,7 @@ LOCAL dwerror:DWORD
 	
 	invoke vc_strcat,lpDisplayBuf,lpMsgBuf
 	
-	invoke MessageBox,0,lpDisplayBuf,addr ErrorCaption,MB_OK
+	invoke MessageBoxA,0,lpDisplayBuf,"Error",MB_OK+MB_ICONERROR
 	
 	invoke LocalFree,lpMsgBuf
 	invoke LocalFree,lpDisplayBuf
