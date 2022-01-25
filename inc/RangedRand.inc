@@ -1,0 +1,7 @@
+IFNDEF RANGEDRAND_INC
+RANGEDRAND_INC EQU RANGEDRAND_INC 
+
+RangedRand PROTO min:QWORD, max:QWORD                      
+
+
+ENDIF
