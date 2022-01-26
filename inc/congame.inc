@@ -80,6 +80,12 @@ GAME_OBJECT STRUCT
 
 GAME_OBJECT ENDS
 
+        putchar MACRO sym
+        
+                invoke vc_putchar,sym
+        
+        ENDM
+
 ; GameObject constructor
 
 CreateObject PROTO lpObj:PTR GAME_OBJECT, x:QWORD, y:QWORD, speed:QWORD, \
