@@ -83,7 +83,7 @@ LOCAL sym[2]:BYTE
 	invoke GetStdHandle,STD_OUTPUT_HANDLE
 	mov HD, rax
 	
-	invoke ReadConsoleOutputCharacterA,0,addr sym,2,rbx,addr chrNum	
+	invoke ReadConsoleOutputCharacterA,HD,addr sym,2,rbx,addr chrNum	
 	test rax, rax
 	je @Error
 	
@@ -149,5 +149,27 @@ LOCAL dwerror:DWORD
 	ret
 ErrorMessage EndP
 
+RangedRand proc min:QWORD, max:QWORD  
+LOCAL rand_val:QWORD
+LOCAL maxVal:QWORD        
+        mov min, rcx
+        mov max, rdx
+        mov maxVal, -1
+        
+@@:
+        rdrand rax
+        jnc @B
+        mov rand_val, rax
+        
+        mov rcx, max        
+        sub rcx, min
+        xor rdx, rdx
+        mov rax, rand_val
+        div rcx
+        add rdx, min
+        
+        mov rax, rdx        
+        ret
+RangedRand endp
 
 END

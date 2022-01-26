@@ -35,4 +35,6 @@ CheckCursorPosition     PROTO x:QWORD, y:QWORD
 
 ErrorMessage PROTO DWErrorCode:DWORD,lpszFunction:PTR BYTE
 
+RangedRand PROTO min:QWORD, max:QWORD  
+
 ENDIF
