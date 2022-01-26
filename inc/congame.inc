@@ -30,11 +30,55 @@ includelib \masm32\lib64\msvcrt.lib
 SetConsoleSize          PROTO wd:QWORD, ht:QWORD
 HideConsoleCursor       PROTO
 gotoxy                  PROTO x:QWORD, y:QWORD
-SetConsoleColor         PROTO cref:QWORD
+SetConsoleColor         PROTO BkgrColor:QWORD, FontColot:QWORD
 CheckCursorPosition     PROTO x:QWORD, y:QWORD
+
+; console text color codes
+        cBlack           = 0
+        cGray            = 8
+        cBlue            = 1
+        cLightBlue       = 9
+        cGreen           = 2
+        cLightGreen      = 10
+        cAqua            = 3        
+        cLightAqua       = 11
+        cRed             = 4
+        cLightRed        = 12
+        cPurple          = 5
+        cLightPurple     = 13
+        cYellow          = 6
+        cLightYellow     = 14
+        cWhite           = 7
+        cBrightWhite     = 15
 
 ErrorMessage PROTO DWErrorCode:DWORD,lpszFunction:PTR BYTE
 
 RangedRand PROTO min:QWORD, max:QWORD  
+
+; GameObject class
+
+GAME_OBJECT STRUCT
+        
+        x               QWORD ?
+        y               QWORD ?
+        xstart          QWORD ?
+        ystart          QWORD ?
+        speed           QWORD ?
+        vspeed          QWORD ?
+        hspeed          QWORD ?
+        gravity         QWORD ?
+        direction       BYTE ?
+        lives           BYTE ?
+        health          BYTE ?
+        sprite          BYTE ?
+
+GAME_OBJECT ENDS
+
+; GameObject constructor
+
+CreateObject PROTO lpObj:PTR GAME_OBJECT, x:QWORD, y:QWORD, speed:QWORD, \
+vspeed:QWORD, hspeed:QWORD, gravity:QWORD, direction:BYTE, lives:BYTE, \
+health:BYTE, sprite:BYTE
+
 
 ENDIF

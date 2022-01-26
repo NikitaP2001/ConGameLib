@@ -59,10 +59,14 @@ LOCAL hCons:HANDLE
 	ret
 SetConsoleSize ENDP
 
-SetConsoleColor proc cref:QWORD
+SetConsoleColor proc uses rbx BkgrColor:QWORD, FontColot:QWORD
 	sub rsp, 28h        
         
-	invoke SetConsoleTextAttribute,rv(GetStdHandle,STD_OUTPUT_HANDLE),rcx
+        mov rbx, BkgrColor
+        shl rbx, 4
+        or rbx, FontColot        
+        
+	invoke SetConsoleTextAttribute,rv(GetStdHandle,STD_OUTPUT_HANDLE),rbx
 	
 	ret
 SetConsoleColor endp
@@ -171,5 +175,36 @@ LOCAL maxVal:QWORD
         mov rax, rdx        
         ret
 RangedRand endp
+
+CreateObject proc lpObj:PTR GAME_OBJECT, x:QWORD, y:QWORD, speed:QWORD, \
+vspeed:QWORD, hspeed:QWORD, gravity:QWORD, direction:BYTE, lives:BYTE, \
+health:BYTE, sprite:BYTE
+        sub rsp, 30h        
+        
+        mov rax, x
+        mov (GAME_OBJECT ptr lpObj).x, rax
+        mov (GAME_OBJECT ptr lpObj).xstart, rax
+        mov rax, y
+        mov (GAME_OBJECT ptr lpObj).y, rax
+        mov (GAME_OBJECT ptr lpObj).ystart, rax
+        mov rax, speed
+        mov (GAME_OBJECT ptr lpObj).speed, rax
+        mov rax, vspeed
+        mov (GAME_OBJECT ptr lpObj).vspeed, rax
+        mov rax, hspeed
+        mov (GAME_OBJECT ptr lpObj).hspeed, rax
+        mov rax, gravity
+        mov (GAME_OBJECT ptr lpObj).gravity, rax
+        mov al, direction
+        mov (GAME_OBJECT ptr lpObj).direction, al
+        mov al, lives
+        mov (GAME_OBJECT ptr lpObj).lives, al
+        mov al, health
+        mov (GAME_OBJECT ptr lpObj).health, al
+        mov al, sprite
+        mov (GAME_OBJECT ptr lpObj).sprite, al
+        
+        ret
+CreateObject endp
 
 END
