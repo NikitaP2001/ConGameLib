@@ -55,14 +55,20 @@ ErrorMessage PROTO DWErrorCode:DWORD,lpszFunction:PTR BYTE
 
 RangedRand PROTO min:QWORD, max:QWORD  
 
+OBJECT STRUCT
+
+        x       QWORD ?
+        y       QWORD ?
+        xstart  QWORD ?
+        ystart  QWORD ?
+
+OBJECT ENDS
+
 ; GameObject class
 
 GAME_OBJECT STRUCT
         
-        x               QWORD ?
-        y               QWORD ?
-        xstart          QWORD ?
-        ystart          QWORD ?
+        obj             OBJECT <>
         speed           QWORD ?
         vspeed          QWORD ?
         hspeed          QWORD ?

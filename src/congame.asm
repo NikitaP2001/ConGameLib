@@ -182,11 +182,11 @@ health:BYTE, sprite:BYTE
         sub rsp, 30h        
         
         mov rax, x
-        mov (GAME_OBJECT ptr lpObj).x, rax
-        mov (GAME_OBJECT ptr lpObj).xstart, rax
+        mov (GAME_OBJECT ptr lpObj).obj.x, rax
+        mov (GAME_OBJECT ptr lpObj).obj.xstart, rax
         mov rax, y
-        mov (GAME_OBJECT ptr lpObj).y, rax
-        mov (GAME_OBJECT ptr lpObj).ystart, rax
+        mov (GAME_OBJECT ptr lpObj).obj.y, rax
+        mov (GAME_OBJECT ptr lpObj).obj.ystart, rax
         mov rax, speed
         mov (GAME_OBJECT ptr lpObj).speed, rax
         mov rax, vspeed
