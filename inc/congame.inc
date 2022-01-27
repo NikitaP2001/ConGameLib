@@ -12,11 +12,13 @@ include \masm32\macros64\macros64.inc
 
 include \masm32\include64\kernel32.inc
 include \masm32\include64\user32.inc
+include \masm32\include64\ntdll.inc
 
 ; windows-api lib files
 
 includelib \masm32\lib64\kernel32.lib
 includelib \masm32\lib64\user32.lib
+includelib \masm32\lib64\ntdll.lib
 
 ; other masm32 libraries header files
 
