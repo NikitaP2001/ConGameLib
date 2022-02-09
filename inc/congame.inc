@@ -30,7 +30,7 @@ includelib \masm32\lib64\msvcrt.lib
 
 
 SetConsoleSize          PROTO wd:QWORD, ht:QWORD
-HideConsoleCursor       PROTO
+SetConsoleCursorState 		PROTO State:QWORD
 gotoxy                  PROTO x:QWORD, y:QWORD
 SetConsoleColor         PROTO BkgrColor:QWORD, FontColot:QWORD
 CheckCursorPosition     PROTO x:QWORD, y:QWORD

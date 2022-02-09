@@ -33,4 +33,4 @@ $(TARGET): $(OBJECTS)
 	move .\$(TARGET) .\$(LIB_DIR)
 
 clean:
-	@-del $(OBJ_DIR)\*.obj $(LIB_DIR)\*.lib
+	@-del $(OBJ_DIR)\*.obj

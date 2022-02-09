@@ -3,31 +3,37 @@ include congame.inc
 .code
 
 gotoxy proc uses rbx x:QWORD, y:QWORD
-        sub rsp, 28h
+	sub rsp, 28h
         
 	mov rbx,rdx
 	shl rbx,16
 	or rbx,rcx
 	invoke SetConsoleCursorPosition,rv(GetStdHandle,STD_OUTPUT_HANDLE ),rbx
-	ret
-        
+	
+	ret        
 gotoxy endp
 
-HideConsoleCursor proc
+SetConsoleCursorState proc State:QWORD
 LOCAL ci:CONSOLE_CURSOR_INFO
 LOCAL hCons:HANDLE
-        sub rsp, 28h
+	sub rsp, 28h		
 
 	invoke GetStdHandle,STD_OUTPUT_HANDLE 
 	mov hCons, rax
 	
 	invoke GetConsoleCursorInfo,hCons,addr ci
-	mov ci.bVisible, 0
 	
-	invoke SetConsoleCursorInfo,hCons,addr ci
-        
+	cmp State, 0
+	jne @Show	
+		mov ci.bVisible, 0		
+	jmp @end
+@Show:			
+		mov ci.bVisible, 1	
+@end:   
+	invoke SetConsoleCursorInfo,hCons,addr ci	
+ 
 	ret
-HideConsoleCursor endp
+SetConsoleCursorState endp
 
 SetConsoleSize PROC uses rbx wd:QWORD, ht:QWORD
 LOCAL srect:SMALL_RECT
