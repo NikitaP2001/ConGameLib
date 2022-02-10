@@ -232,12 +232,12 @@ LOCAL WndRect:RECT
 	mov edi, (RECT ptr WndRect).bottom
 	sub edi, (RECT ptr WndRect).top
 	
-	invoke GetSystemMetrics, SM_CXSCREEN
+	invoke GetSystemMetrics,SM_CXSCREEN
 	sub eax, esi
 	shr eax, 1
 	mov esi, eax	
 	
-	invoke GetSystemMetrics, SM_CYSCREEN
+	invoke GetSystemMetrics,SM_CYSCREEN
 	sub eax, edi
 	shr eax, 1
 	mov edi, eax
@@ -248,5 +248,16 @@ LOCAL WndRect:RECT
 	ret
 SetConsoleCenterScreen endp
 
+
+HideConsole proc
+	sub rsp, 28h
+
+	invoke GetConsoleWindow
+	
+	invoke ShowWindow,rax,SW_HIDE
+
+	add rsp, 28h
+	ret
+HideConsole endp
 
 END
