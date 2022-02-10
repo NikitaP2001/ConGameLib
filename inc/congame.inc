@@ -30,6 +30,8 @@ includelib \masm32\lib64\msvcrt.lib
 
 
 SetConsoleSize          PROTO wd:QWORD, ht:QWORD
+
+SetConsoleCenterScreen 	PROTO hwndInsertAfter:HWND
 SetConsoleCursorState 		PROTO State:QWORD
 gotoxy                  PROTO x:QWORD, y:QWORD
 SetConsoleColor         PROTO BkgrColor:QWORD, FontColot:QWORD
@@ -52,8 +54,24 @@ CheckCursorPosition     PROTO x:QWORD, y:QWORD
         cLightYellow     = 14
         cWhite           = 7
         cBrightWhite     = 15
-
+		
+; Returns TRUE on success
 ErrorMessage PROTO DWErrorCode:DWORD,lpszFunction:PTR BYTE
+
+SHOW_ERROR MACRO func_name
+
+	ifdef DEBUG
+		
+		invoke GetLastError
+		
+		invoke ErrorMessage,rax,func_name
+		
+		int 3
+		
+	endif	
+	xor rax, rax
+	
+ENDM
 
 RangedRand PROTO min:QWORD, max:QWORD  
 

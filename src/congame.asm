@@ -154,7 +154,6 @@ LOCAL dwerror:DWORD
 	
 	invoke LocalFree,lpMsgBuf
 	invoke LocalFree,lpDisplayBuf
-	invoke ExitProcess,dwerror
 
 	ret
 ErrorMessage EndP
@@ -212,5 +211,42 @@ health:BYTE, sprite:BYTE
         
         ret
 CreateObject endp
+
+SetConsoleCenterScreen proc hwndInsertAfter:HWND
+LOCAL hWCons:HWND
+LOCAL WndRect:RECT
+	mov hwndInsertAfter, rcx
+	sub rsp, 28h
+	and rsp, -10h
+
+	invoke GetConsoleWindow
+	mov hWCons, rax
+	
+	invoke GetWindowRect,hWCons,addr WndRect
+	
+	; console width
+	mov esi, (RECT ptr WndRect).right
+	sub esi, (RECT ptr WndRect).left
+	
+	; console height
+	mov edi, (RECT ptr WndRect).bottom
+	sub edi, (RECT ptr WndRect).top
+	
+	invoke GetSystemMetrics, SM_CXSCREEN
+	sub eax, esi
+	shr eax, 1
+	mov esi, eax	
+	
+	invoke GetSystemMetrics, SM_CYSCREEN
+	sub eax, edi
+	shr eax, 1
+	mov edi, eax
+
+	invoke SetWindowPos,hWCons,hwndInsertAfter,esi,edi,0,0, \
+	1h + 40h
+	
+	ret
+SetConsoleCenterScreen endp
+
 
 END
