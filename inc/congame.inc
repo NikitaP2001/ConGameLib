@@ -118,5 +118,13 @@ CreateObject PROTO lpObj:PTR GAME_OBJECT, x:QWORD, y:QWORD, speed:QWORD, \
 vspeed:QWORD, hspeed:QWORD, gravity:QWORD, direction:BYTE, lives:BYTE, \
 health:BYTE, sprite:BYTE
 
+; Returns struct with current window size: 
+; size struct
+;	width dd
+;	heigth dd
+; ends
+
+GetConsoleWindowSize PROTO
+
 
 ENDIF

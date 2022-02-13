@@ -38,15 +38,15 @@ SetConsoleCursorState endp
 SetConsoleSize PROC uses rbx wd:QWORD, ht:QWORD
 LOCAL srect:SMALL_RECT
 LOCAL hCons:HANDLE
-        sub rsp, 28h
-        mov wd, rcx
-        mov ht, rdx
+	sub rsp, 28h
+	mov wd, rcx
+	mov ht, rdx
 
 	invoke GetStdHandle,STD_OUTPUT_HANDLE 
-        mov hCons, rax
-	
-        mov (SMALL_RECT ptr srect).Left, 0
-        mov (SMALL_RECT ptr srect).Top, 0
+	mov hCons, rax
+
+	mov (SMALL_RECT ptr srect).Left, 0
+	mov (SMALL_RECT ptr srect).Top, 0
         
 	mov rax, wd
 	dec rax
@@ -112,9 +112,10 @@ ErrorMessage PROC uses rbx DWErrorCode:DWORD,lpszFunction:PTR BYTE
 LOCAL lpMsgBuf:LPVOID
 LOCAL lpDisplayBuf:LPVOID
 LOCAL dwerror:DWORD
-        sub rsp, 30h
-        mov DWErrorCode, ecx
-        mov lpszFunction, rdx
+	sub rsp, 30h
+	and rsp, -10h
+	mov DWErrorCode, ecx
+	mov lpszFunction, rdx
 
 	call GetLastError
 	mov dwerror, eax
@@ -259,5 +260,23 @@ HideConsole proc
 	add rsp, 28h
 	ret
 HideConsole endp
+
+GetConsoleWindowSize proc
+LOCAL hWCons:HWND
+LOCAL WndRect:RECT
+	sub rsp, 28h
+	and rsp, -10h
+	invoke GetConsoleWindow
+	mov hWCons, rax
+	
+	invoke GetWindowRect,hWCons,addr WndRect
+	mov eax, (RECT ptr WndRect).right
+	sub eax, (RECT ptr WndRect).left
+	shl rax, 20h
+	mov eax, (RECT ptr WndRect).bottom
+	sub eax, (RECT ptr WndRect).top
+
+	ret
+GetConsoleWindowSize endp
 
 END
